@@ -12,6 +12,7 @@ import random
 import collections
 import math
 import time
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input_dir", help="path to folder containing images")
@@ -42,6 +43,9 @@ parser.add_argument("--lr", type=float, default=0.0002, help="initial learning r
 parser.add_argument("--beta1", type=float, default=0.5, help="momentum term of adam")
 parser.add_argument("--l1_weight", type=float, default=100.0, help="weight on L1 term for generator gradient")
 parser.add_argument("--gan_weight", type=float, default=1.0, help="weight on GAN term for generator gradient")
+
+parser.add_argument("--job_name")
+parser.add_argument("--task_index", type=int, default=0)
 a = parser.parse_args()
 
 EPS = 1e-12
@@ -50,7 +54,33 @@ CROP_SIZE = 256
 Examples = collections.namedtuple("Examples", "paths, inputs, targets, count, steps_per_epoch")
 Model = collections.namedtuple("Model", "outputs, predict_real, predict_fake, discrim_loss, discrim_grads_and_vars, gen_loss_GAN, gen_loss_L1, gen_grads_and_vars, train")
 
-
+# Cluster
+#ps_hosts = FLAGS.ps_hosts.split(",")
+#worker_hosts = FLAGS.worker_hosts.split(",")
+  
+ps_hosts = ["lyra.evl.uic.edu:2222"]
+worker_hosts = [
+    #"lyra-02.evl.uic.edu:2222",
+    #"lyra-04.evl.uic.edu:2222",
+    #"lyra-06.evl.uic.edu:2222",
+    #"lyra-08.evl.uic.edu:2222",
+    #"lyra-10.evl.uic.edu:2222",
+    #"lyra-12.evl.uic.edu:2222",
+    #"lyra-14.evl.uic.edu:2222",
+    #"lyra-16.evl.uic.edu:2222",
+    #"lyra-18.evl.uic.edu:2222",
+    #"lyra-20.evl.uic.edu:2222",
+    #"lyra-22.evl.uic.edu:2222",
+    #"lyra-24.evl.uic.edu:2222",
+    #"lyra-26.evl.uic.edu:2222",
+    #"lyra-28.evl.uic.edu:2222",
+    #"lyra-30.evl.uic.edu:2222",
+    #"lyra-32.evl.uic.edu:2222",
+    #"lyra-33.evl.uic.edu:2222",
+    "lyra-34.evl.uic.edu:2222",
+    "lyra-36.evl.uic.edu:2222"
+    ]
+                           
 def preprocess(image):
     with tf.name_scope("preprocess"):
         # [0, 1] => [-1, 1]
@@ -238,6 +268,14 @@ def load_examples():
 
     input_paths = glob.glob(os.path.join(a.input_dir, "*.jpg"))
     decode = tf.image.decode_jpeg
+    
+    
+    print("input_paths length = " + str(len(input_paths)))
+    print("worker length =  " + str(len(worker_hosts)))
+    
+    # Batch test only
+    sys.exit(0)
+    
     if len(input_paths) == 0:
         input_paths = glob.glob(os.path.join(a.input_dir, "*.png"))
         decode = tf.image.decode_png
@@ -539,6 +577,13 @@ def main():
     #if tf.__version__ != "1.0.0":
     #    raise Exception("Tensorflow version 1.0.0 required")
 
+    # Create a cluster from the parameter server and worker hosts.
+    cluster = tf.train.ClusterSpec({"ps": ps_hosts, "worker": worker_hosts})
+      
+    # Create and start a server for the local task.
+    server = tf.train.Server(cluster,
+                               job_name=a.job_name,
+                               task_index=a.task_index)
     if a.seed is None:
         a.seed = random.randint(0, 2**31 - 1)
 
