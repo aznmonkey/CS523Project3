@@ -12,6 +12,8 @@ import random
 import collections
 import math
 import time
+
+from itertools import islice
 import sys
 
 parser = argparse.ArgumentParser()
@@ -261,7 +263,11 @@ def lab_to_rgb(lab):
 
         return tf.reshape(srgb_pixels, tf.shape(lab))
 
-
+def chunks(data, SIZE=10000):
+    it = iter(data)
+    for i in range(0, len(data), SIZE):
+        yield {k:data[k] for k in islice(it, SIZE)}
+        
 def load_examples():
     if a.input_dir is None or not os.path.exists(a.input_dir):
         raise Exception("input_dir does not exist")
@@ -269,12 +275,28 @@ def load_examples():
     input_paths = glob.glob(os.path.join(a.input_dir, "*.jpg"))
     decode = tf.image.decode_jpeg
     
+    # Divides the input paths into chunks
+    chunkCount = len(worker_hosts)
+    chunkSize = int( len(input_paths) / chunkCount ) + 1
     
-    print("input_paths length = " + str(len(input_paths)))
-    print("worker length =  " + str(len(worker_hosts)))
+    print("CLUSTER:\tinput_paths size = " + str(len(input_paths)))
+    print("CLUSTER:\tchunkSize = " + str(chunkSize))
     
-    # Batch test only
-    sys.exit(0)
+    input_paths_chunks = [input_paths[x:x+chunkSize] for x in range(0, len(input_paths), chunkSize)]
+    
+    for i in range(0, len(input_paths_chunks)):
+        print("CLUSTER:\tinput_paths_chunks " + str(i) + " len = " + str(len(input_paths_chunks[i])))
+    if a.job_name == "ps":
+        print("CLUSTER:\tRunning as server")
+        #server.join()
+    elif a.job_name == "worker":
+        print("CLUSTER:\tRunning as worker " + str(a.task_index))
+        
+    # Chunk creation test only
+    #sys.exit(0)
+
+    # Load chunk specific to this worker
+    input_paths = input_paths_chunks[a.task_index]
     
     if len(input_paths) == 0:
         input_paths = glob.glob(os.path.join(a.input_dir, "*.png"))
