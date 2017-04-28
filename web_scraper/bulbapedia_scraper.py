@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import urllib
 import json
 
-
 def getImage(pokemon, number):
     if number < 10:
         number = '00' + str(number)

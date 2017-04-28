@@ -16,11 +16,17 @@ def findImageURL(pokemon, number_of_images):
     soup = BeautifulSoup(page.content, 'html.parser')
     image_ul = soup.find_all('ul', class_='gallery mw-gallery-traditional')[0]
     image_divs = image_ul.find_all('div', class_='thumb')
-    for i in range(number_of_images):
-        image_link = image_divs[i].find('a').get('href')
-        getImage(pokemon, str(image_link), str(i))
+    if number_of_images == 'all':
+        for i in range(len(image_divs)):
+            image_link = image_divs[i].find('a').get('href')
+            getImage(pokemon, str(image_link), str(i))
+    else:
+        for i in range(number_of_images):
+            image_link = image_divs[i].find('a').get('href')
+            getImage(pokemon, str(image_link), str(i))
 
-# Grabs images up until the specified pokedex number
+# Grabs images up until the specified pokedex number, specify all if you want to get all images
+# otherwise specify the number
 def pullImages(pokedex_num, images_per_pokemon):
     with open('en_pokemon.json') as pokemons:    
         data = json.load(pokemons)  
@@ -28,5 +34,5 @@ def pullImages(pokedex_num, images_per_pokemon):
         findImageURL(data[i], images_per_pokemon)
 
 if __name__ == "__main__":
-    pullImages(4, 4)
+    pullImages(1, 'all')
     

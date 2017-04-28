@@ -1,0 +1,25 @@
+#!/bin/bash
+appRoot="/data/evl/anishi2/cs523/pix2pix-tensorflow"
+
+# Train
+#python3 $appRoot/pix2pix.py \
+#		  --mode train \
+#		  --output_dir $appRoot/edges2pkm_train-Lyra34 \
+#		  --max_epochs 150 \
+#		  --input_dir $appRoot/edges2pkm/trainFrontOnly \
+#		  --which_direction AtoB
+
+rm -rf $appRoot/server.js/views/images
+rm -rf $appRoot/server.js/public/images
+rm -rf $appRoot/server.js/views/*.html
+
+# Test
+python3 $appRoot/pix2pix.py \
+		  --mode test \
+		  --output_dir $appRoot/server.js/views \
+		  --input_dir $appRoot/edges2pkm/test \
+		  --checkpoint $appRoot/edges2pkm_train-Lyra32
+		  
+
+# Copy test to node server
+cp -rf $appRoot/server.js/views/images $appRoot/server.js/public/
