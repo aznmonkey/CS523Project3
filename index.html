@@ -13,7 +13,7 @@
         display:inline-block;
     }
     #draw-tools {
-        text-align:right;
+        /*text-align:right;*/
         margin-top:10px;
         font-size:10px;
     }
@@ -21,9 +21,10 @@
         background-color:white;
         border-radius:4px;
         border-width:1px;
-        margin-left:2px;
+        margin-right:2px;
         outline:none;
         font-size:14px;
+        cursor:pointer;
     }
     #draw-tools div {
         margin-top:5px;
@@ -40,8 +41,8 @@
         background-color:black;
         border-radius:50%;
         border:1px solid white;
-        width:3px;
-        height:3px;
+        width:5px;
+        height:5px;
     }
     #indicator.erase {
         background-color:white;
@@ -51,6 +52,8 @@
         background-color:skyblue;
     }
     #draw-tools button.go {
+        margin-right:0;
+        float:right;
         background-color: greenyellow;
     }
     #draw {
@@ -73,6 +76,12 @@
             <button id="undo-btn" title="undo">
                 <i class="fa fa-undo" aria-hidden="true"></i>
             </button>
+            <button id="load-btn" title="load">
+                <i class="fa fa-folder-open" aria-hidden="true"></i>
+            </button>
+            <button id="save-btn" title="save">
+                <i class="fa fa-save" aria-hidden="true"></i>
+            </button>
             <button id="clear-btn" title="clear">
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </button>
@@ -80,12 +89,19 @@
                 <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
             </button>
             <div>
-               size <input type="range" value="10">
+               brush <input type="range" value="25">
                <span id="indicator">
                </span>
             </div>
         </div>
     </div>
+
+    <!-- save/load handler -->
+    <a id="save-anchor" download="input.jpg" style="display:none"></a>
+    <form>
+        <input type="file" id="load-input" style="display:none" accept="image/*">
+    </form>
+
 
     <script>
     (function() {
@@ -104,7 +120,7 @@
         ctx.fillStyle = 'white';
         ctx.fillRect(0,0,width,height);
         ctx.lineCap = 'round';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 4;
 
         var isDrawing = true;
         var isMouseDown = false;
@@ -146,6 +162,8 @@
         var eraseButton = document.getElementById('erase-btn');
         var undoButton = document.getElementById('undo-btn');
         var clearButton = document.getElementById('clear-btn');
+        var saveButton = document.getElementById('save-btn');
+        var loadButton = document.getElementById('load-btn');
         var procButton = document.getElementById('process-btn');
         var indicator = document.getElementById('indicator');
         var sizeSlider = document.querySelector('input[type="range"]');
@@ -180,13 +198,58 @@
             ctx.fillRect(0, 0, width, height);
             canvasStates = [];
         };
+
+        saveButton.onclick = function() {
+            var save = document.getElementById('save-anchor');
+            var dataURL = canvas.toDataURL('image/jpeg');
+            save.href = dataURL;
+            save.click();
+        };
+
+        loadButton.onclick = function() {
+            var input = document.getElementById('load-input');
+            input.click();
+            input.onchange = function() {
+                var file = this.files[0];
+                if (file) {
+                    document.querySelector('form').reset();
+
+                    fr = new FileReader();
+                    fr.readAsDataURL( file );
+
+                    fr.onload = function() {
+                        if (fr.result) {
+                            var image = new Image();
+                            image.src = fr.result;
+                            image.onload = function() {
+                                ctx.drawImage(image, 0, 0, width, height);
+                                canvasStates = [ctx.getImageData(0,0,width,height)];
+                            };
+                        }
+                    };
+                }
+            }
+        };
+
         procButton.onclick = function() {
             // get image data from canvas
-            var data = ctx.getImageData(0,0,width,height);
-            console.log(data);
+            var img = canvas.toDataURL('image/jpeg');
 
-            // send image to the server
+            // send image to server
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', './upload', true);
+            xhr.send(img);
+
+            xhr.onreadystatechange = function(e) {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log('success',xhr.responseText);
+                }
+                else {
+                    console.log('error posting file');
+                }
+            }
         };
+
     })();
 
     </script>
