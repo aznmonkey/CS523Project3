@@ -12,29 +12,34 @@ app.get('/', function(req, res){
 });
 
 app.post('/upload', function(req, res){
+    var buffer;
     req.on('data', function(data) {
         var dataString = ("" + data).replace(/^data:image\/\w+;base64,/, "");
-        var buffer = new Buffer(dataString, 'base64');
-        var pathString = path.join(__dirname, 'views/output.jpg');
+        buffer = new Buffer(dataString, 'base64');
+    });
 
-        fs.writeFile(
-            pathString,
-            buffer,
-            function(err) {
-                if (err) {
-                    console.log("Error writing image", err);
+    req.on('end', function() {
+        if (buffer) {
+            var pathString = path.join(__dirname, 'views/output.jpg');
+
+            fs.writeFile(
+                pathString,
+                buffer,
+                function(err) {
+                    if (err) {
+                        console.log("Error writing image", err);
+                    }
+                    else {
+                        console.log("Sending to the shell...")
+                        processFile(pathString);
+                    }
                 }
-                else {
-                    processFile(pathString);
-                }
-            }
-        );
+            );            
+        }
     });
 });
 
 function processFile(pathString) {
-    console.log("send this to the shell:", pathString);
-
     var scriptPath = '/data/evl/anishi2/cs523/';
     var script = 'pix2pix_testPkm';
 
