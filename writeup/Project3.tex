@@ -1,0 +1,52 @@
+\documentclass[[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[bookmarksnumbered,breaklinks,linkcolor=black,citecolor=black,urlcolor=black,bookmarks=true,bookmarksopen=false]{hyperref}
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage{graphicx}
+\usepackage{textcomp}
+
+\title{GANmons: Sketchable Monsters from Generative Adversarial Networks}
+\author{ 
+Kristine Lee \\ \texttt{@uic.edu}
+\and
+Arthur Nishimoto \\ \texttt{@uic.edu}
+\and
+Xing Li \\ \texttt{@uic.edu}
+}
+
+\settocbibname{References}
+%\renewcommand{\contentsname}{Table of Contents}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+GANmons generates new images and attributes of 'monsters' using Generative Adversarial Networks (GANs) trained on a dataset of existing creatures and attributes. The goal is to train our neural network on a dataset of existing Pokémon images and attributes (name, type, abilities). After being applied to our GAN, we expect our new GANmons images and attributes to have a similar form to the originals in terms of how appearance and attributes are associated. For example a bird or flying-type GANmon would likely have wings or feathers of some kind. Similarly a grass-type would perhaps have a leafy or plant like appearance. In addition we hope to find interesting results in how names and other attributes such as abilities are associated.
+\end{abstract}
+
+\section{Introduction}
+[Proper intro about GANs etc.]
+
+The motivation behind this project was work done by Janelle Shane who uses a recurrent neural network (RNN) to randomly generate  Pokémon names, abilities, and attributes based on a training set of existing Pokémon names and abilities \cite{pokemonNN}. Iquanamouth used the output of the RNN to create illustrations of those Pokémon  \cite{pokemonNN-img}. Our work aims to generate new Pokémon, but using a neural network to generate the images rather than by hand.
+
+Our neural network is based on Christopher Hesse's tensorflow implementation of pix2pix by Isola et. al \cite{pix2pix-tensorflow,pix2pix}
+
+\section{Related Work}
+Sketchy \cite{sketchy}
+Learning What and Where to Draw \cite{whatWhereToDraw}
+
+\section{Implementation}
+\subsection{Training Set}
+\subsection{Cluster?}
+\subsection{Web Interface}
+\section{Discussion}
+
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
+
+
+
