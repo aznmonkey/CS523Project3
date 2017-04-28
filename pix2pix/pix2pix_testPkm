@@ -1,5 +1,5 @@
 #!/bin/bash
-appRoot="/data/evl/anishi2/cs523/pix2pix-tensorflow"
+appRoot="/data/evl/anishi2/cs523"
 
 # Train
 #python3 $appRoot/pix2pix.py \
@@ -14,11 +14,11 @@ rm -rf $appRoot/server.js/public/images
 rm -rf $appRoot/server.js/views/*.html
 
 # Test
-python3 $appRoot/pix2pix.py \
+python3 $appRoot/pix2pix-tensorflow/pix2pix.py \
 		  --mode test \
-		  --output_dir $appRoot/server.js/views \
-		  --input_dir $appRoot/edges2pkm/test \
-		  --checkpoint $appRoot/edges2pkm_train-Lyra32
+		  --output_dir $appRoot/output \
+		  --input_dir $appRoot/views \
+		  --checkpoint $appRoot/pix2pix-tensorflow/edges2pkm_train-Lyra32
 		  
 
 # Copy test to node server
