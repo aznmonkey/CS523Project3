@@ -10,14 +10,14 @@ dirRoot="/data/evl/anishi2/cs523/CS523Project3"
 #		  --input_dir $appRoot/edges2pkm/trainFrontOnly \
 #		  --which_direction AtoB
 
-rm -rf $appRoot/server.js/views/images
-rm -rf $appRoot/server.js/public/images
-rm -rf $appRoot/server.js/views/*.html
+rm -rf $dirRoot/public/output/*
+rm -rf $dirRoot/views/*
+# rm -rf $appRoot/server.js/views/*.html
 
 # Test
 python3 $appRoot/pix2pix.py \
 		  --mode test \
-		  --output_dir $dirRoot/output \
+		  --output_dir $dirRoot/public/output \
 		  --input_dir $dirRoot/views \
 		  --checkpoint $appRoot/edges2pkm_train-Lyra32
 		  

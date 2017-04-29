@@ -51,7 +51,7 @@ app.post('/upload', function(req, res){
                             else {
                                 console.log('error');
                             }
-                            res.send(200);
+                            res.sendStatus(200);
                         });
 
                     }
