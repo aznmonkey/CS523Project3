@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var fs = require('fs');
+var spawn = require('child_process').spawn;
 
 var server = app.listen(10523, function(){
   console.log('Server listening on port 10523');
@@ -15,6 +16,8 @@ app.post('/upload', function(req, res){
     var buffer;
     req.on('data', function(data) {
         var dataString = ("" + data).replace(/^data:image\/\w+;base64,/, "");
+        console.log(data);
+        console.log(dataString.slice(0,20));
         buffer = new Buffer(dataString, 'base64');
     });
 
@@ -25,6 +28,7 @@ app.post('/upload', function(req, res){
             fs.writeFile(
                 pathString,
                 buffer,
+                'base64',
                 function(err) {
                     if (err) {
                         console.log("Error writing image", err);
@@ -51,6 +55,18 @@ function processFile(pathString) {
    
     console.log('running'); 
     /* running on lyra */
-    const spawn = require('child_process').spawn;
     const scriptExecution = spawn("ssh", args);
+
+    scriptExecution.stdout.on('data', function(data) {
+        console.log('stdout', data);
+    });
+
+    scriptExecution.stderr.on('data', function(err) {
+        console.log('error', err);
+    });
+
+    scriptExecution.stdout.on('exit', function(data) {
+        console.log('done', data);
+    });
+
 }
