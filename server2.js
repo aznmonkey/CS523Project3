@@ -12,6 +12,8 @@ app.get('/', function(req, res){
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.use('/output', express.static('public/output'));
+
 app.post('/upload', function(req, res){
     var buffer;
     req.on('data', function(data) {
