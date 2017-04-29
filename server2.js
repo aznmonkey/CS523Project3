@@ -16,8 +16,6 @@ app.post('/upload', function(req, res){
     var buffer;
     req.on('data', function(data) {
         var dataString = ("" + data).replace(/^data:image\/\w+;base64,/, "");
-        console.log(data);
-        console.log(dataString.slice(0,20));
         buffer = new Buffer(dataString, 'base64');
     });
 
@@ -48,7 +46,7 @@ function parseString(data) {
 }
 
 function processFile(pathString) {
-    var scriptPath = '/data/evl/anishi2/cs523/';
+    var scriptPath = '/data/evl/anishi2/cs523/CS523Project3/pix2pix/';
     var script = 'pix2pix_testPkm';
 
     var args = [
