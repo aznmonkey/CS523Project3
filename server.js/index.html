@@ -97,7 +97,8 @@
             </div>
         </div>
     </div>
-    <img src="./public/output/images/output-outputs.png"/>
+    <!--img src="./output/images/output-outputs.png"/-->
+	<img src="./images/output.jpg"/>
 
     <!-- save/load handler -->
     <a id="save-anchor" download="input.jpg" style="display:none"></a>
@@ -236,19 +237,19 @@
 
         procButton.onclick = function() {
             // get image data from canvas
-            var img = canvas.toDataURL('image/jpeg');
+            var image = canvas.toDataURL('image/jpeg');
 
             // send image to server
             var xhr = new XMLHttpRequest();
             xhr.open('POST', './upload', true);
-            xhr.send(img);
+            xhr.send(image);
 
             xhr.onreadystatechange = function(e) {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         console.log('success', xhr.responseText);
                         var image = new Image();
-                        image.src = 'output/images/output-outputs.png';
+                        image.src = './output/images/output-outputs.png';
                         image.onload = function() {
                             console.log(image);
                             ctx.drawImage(image, 0, 0, width, height);
