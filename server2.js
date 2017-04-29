@@ -46,12 +46,13 @@ app.post('/upload', function(req, res){
                         process.on('exit', function(data) {
                             console.log('done', data);
                             if (data == 0) {
+                                res.sendStatus(200);
                                 console.log('success');
                             }
                             else {
+                                res.sendStatus(500);
                                 console.log('error');
                             }
-                            res.sendStatus(200);
                         });
 
                     }
