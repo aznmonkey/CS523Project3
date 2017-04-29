@@ -22,6 +22,7 @@ app.post('/upload', function(req, res){
     req.on('end', function() {
         if (buffer) {
             var pathString = path.join(__dirname, 'views/output.jpg');
+            var success = false;
 
             fs.writeFile(
                 pathString,
@@ -36,7 +37,11 @@ app.post('/upload', function(req, res){
                         var process = processFile(pathString);
 
                         process.stdout.on('data', function(msg) {
-                            console.log('+', parseString(msg));
+                            var string = parseString(msg);
+                            if (string.includes('wrote index at')) {
+                                success = true;
+                            }
+                            console.log('+', string);
                         });
 
                         process.stderr.on('data', function(err) {
@@ -45,7 +50,7 @@ app.post('/upload', function(req, res){
 
                         process.on('exit', function(data) {
                             console.log('done', data);
-                            if (data == 0) {
+                            if (data == 0 && success) {
                                 res.sendStatus(200);
                                 console.log('success');
                             }

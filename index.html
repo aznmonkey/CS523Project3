@@ -97,6 +97,7 @@
             </div>
         </div>
     </div>
+    <img src="./public/output/images/output-outputs.png"/>
 
     <!-- save/load handler -->
     <a id="save-anchor" download="input.jpg" style="display:none"></a>
@@ -247,7 +248,7 @@
                     if (xhr.status === 200) {
                         console.log('success', xhr.responseText);
                         var image = new Image();
-                        image.src = 'public/output/images/output-outputs.png';
+                        image.src = 'output/images/output-outputs.png';
                         image.onload = function() {
                             console.log(image);
                             ctx.drawImage(image, 0, 0, width, height);
