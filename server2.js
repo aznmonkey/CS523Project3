@@ -62,14 +62,14 @@ function processFile(pathString) {
     const scriptExecution = spawn("ssh", args);
 
     scriptExecution.stdout.on('data', function(msg) {
-        console.log('stdout', parseString(msg));
+        console.log('+', parseString(msg));
     });
 
     scriptExecution.stderr.on('data', function(err) {
-        console.log('error', parseString(err));
+        console.log('-', parseString(err));
     });
 
-    scriptExecution.stdout.on('exit', function(data) {
+    scriptExecution.on('exit', function(data) {
         console.log('done', data);
     });
 
