@@ -4,8 +4,8 @@ var path = require('path');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
 
-var server = app.listen(11523, function(){
-  console.log('Server listening on port 11523');
+var server = app.listen(10523, function(){
+  console.log('Server listening on port 10523');
 });
 
 app.get('/', function(req, res){
