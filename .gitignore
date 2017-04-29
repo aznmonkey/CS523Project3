@@ -1,2 +1,4 @@
 .DS_Store
 */.DS_Store
+web_scraper/*
+node_modules

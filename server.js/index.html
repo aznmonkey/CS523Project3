@@ -97,8 +97,6 @@
             </div>
         </div>
     </div>
-    <!--img src="./output/images/output-outputs.png"/-->
-	<img src="./images/output.jpg"/>
 
     <!-- save/load handler -->
     <a id="save-anchor" download="input.jpg" style="display:none"></a>
@@ -248,12 +246,14 @@
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         console.log('success', xhr.responseText);
-                        var image = new Image();
+/*                        var image = new Image();
                         image.src = './output/images/output-outputs.png';
                         image.onload = function() {
                             console.log(image);
                             ctx.drawImage(image, 0, 0, width, height);
                         };
+*/
+appendImage();
                     }
                     else {
                         console.log('error posting file', xhr.responseText);
@@ -263,6 +263,17 @@
         };
 
     })();
+
+    function appendImage(url) {
+        url = url || "output/images/output-outputs.png";
+        var div = document.getElementById('debugdiv') || document.createElement('div');
+        if (!div.id) {
+           div.id = "debugdiv";
+           document.body.append(div);
+        }
+        div.innerHTML = "<img src='" + url + "'>";
+        
+    };
 
     </script>
 </body>
