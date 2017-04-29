@@ -33,7 +33,27 @@ app.post('/upload', function(req, res){
                     }
                     else {
                         console.log("Sending to the shell...")
-                        processFile(pathString);
+                        var process = processFile(pathString);
+
+                        process.stdout.on('data', function(msg) {
+                            console.log('+', parseString(msg));
+                        });
+
+                        process.stderr.on('data', function(err) {
+                            console.log('-', parseString(err));
+                        });
+
+                        process.on('exit', function(data) {
+                            console.log('done', data);
+                            if (data == 0) {
+                                console.log('success');
+                            }
+                            else {
+                                console.log('error');
+                            }
+                            res.send(200);
+                        });
+
                     }
                 }
             );            
@@ -57,18 +77,5 @@ function processFile(pathString) {
    
     console.log('running'); 
     /* running on lyra */
-    const scriptExecution = spawn("ssh", args);
-
-    scriptExecution.stdout.on('data', function(msg) {
-        console.log('+', parseString(msg));
-    });
-
-    scriptExecution.stderr.on('data', function(err) {
-        console.log('-', parseString(err));
-    });
-
-    scriptExecution.on('exit', function(data) {
-        console.log('done', data);
-    });
-
+    return spawn('ssh', args);
 }

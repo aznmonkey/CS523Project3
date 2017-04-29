@@ -243,8 +243,15 @@
             xhr.send(img);
 
             xhr.onreadystatechange = function(e) {
+                console.log(xhr.readyState, xhr.status);
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     console.log('success', xhr.responseText);
+                    var image = new Image();
+                    image.src = 'output/images/output-outputs.png';
+                    image.onload = function() {
+                        console.log(image);
+                        ctx.drawImage(image, 0, 0, width, height);
+                    };
                 }
                 else {
                     console.log('error posting file', xhr.responseText);
