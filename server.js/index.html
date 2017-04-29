@@ -265,13 +265,16 @@ appendImage();
     })();
 
     function appendImage(url) {
-        url = url || "output/images/output-outputs.png";
+        url_1 = url || "output/images/output-outputs-artistModel.png#"+ new Date().getTime();
+		url_2 = url || "output/images/output-outputs-spriteModel.png#"+ new Date().getTime();
+		url_3 = url || "output/images/output-outputs-artistModel2.png#"+ new Date().getTime();
+		url_4 = url || "output/images/output-outputs-spriteModel2.png#"+ new Date().getTime();
         var div = document.getElementById('debugdiv') || document.createElement('div');
         if (!div.id) {
            div.id = "debugdiv";
            document.body.append(div);
         }
-        div.innerHTML = "<img src='" + url + "'>";
+        div.innerHTML = "<img src='" + url_1 + "'>"+"<img src='" + url_2 + "'>"+"<img src='" + url_3 + "'>"+"<img src='" + url_4 + "'>";
         
     };
 

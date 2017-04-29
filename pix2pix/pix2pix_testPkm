@@ -3,17 +3,43 @@ appRoot="/data/evl/anishi2/cs523/pix2pix-tensorflow"
 dirRoot="/data/evl/anishi2/cs523/CS523Project3/server.js"
 
 # cleanup previous image
-rm -rf $dirRoot/public/output/*
+#rm -rf $dirRoot/public/output/*
+
+
+model="edges2pkm_train-Lyra30"
+
+if [ $1 == "spriteModel" ];
+	then
+		echo "Using sprite model"
+		model="edges2pkm_train-Lyra32"
+elif [ $1 == "artistModel" ];
+	then
+			echo "Using artist model"
+			model="edges2pkm_train-Lyra30"
+elif [ $1 == "spriteModel2" ];
+	then
+			echo "Using old sprite model"
+			model="edges2pkm_train-Lyra36"
+elif [ $1 == "artistModel2" ];
+	then
+			echo "Using old artist model"
+			model="edges2pkm_train-Lyra34"
+else
+	echo "Using default model"
+fi
 
 # Test
 python3 $appRoot/pix2pix.py \
 		  --mode test \
-		  --output_dir $dirRoot/public/output \
+		  --output_dir $dirRoot/public/output-$1 \
 		  --input_dir $dirRoot/public/images \
-		  --checkpoint $appRoot/edges2pkm_train-Lyra30
+		  --checkpoint $appRoot/$model
 
-rm -rf $dirRoot/public/images/*
+#rm -rf $dirRoot/public/images/*
 # mkdir $dirRoot/public/images
-# sleep 5
+#sleep 5
 
-cp -rf $dirRoot/public/output /data/evl/anishi2/cs523/CS523Project3/output
+#cp -rf $dirRoot/public/output /data/evl/anishi2/cs523/CS523Project3/output
+
+mkdir $dirRoot/public/output/images
+cp $dirRoot/public/output-$1/images/output-outputs.png $dirRoot/public/output/images/output-outputs-$1.png

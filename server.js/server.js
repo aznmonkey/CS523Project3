@@ -59,7 +59,8 @@ app.post('/upload', function(req, res){
                         });
 
                         process.stderr.on('data', function(err) {
-                            console.log('-', parseString(err));
+                            var string = parseString(err);
+                            console.log('-', string);
                         });
 
                         process.on('exit', function(data) {
@@ -92,10 +93,15 @@ function processFile(pathString) {
     var args = [
         "lyra-02",
         "nohup",
-        scriptPath + script
+        scriptPath + script + " artistModel"
     ];
    
-    console.log('running'); 
+    console.log('running');
+	
+	spawn('ssh', ["lyra-04", "nohup", scriptPath + script + " spriteModel"]);
+	spawn('ssh', ["lyra-06", "nohup", scriptPath + script + " artistModel2"]);
+	spawn('ssh', ["lyra-08", "nohup", scriptPath + script + " spriteModel2"]);
+	
     /* running on lyra */
     return spawn('ssh', args);
 }
