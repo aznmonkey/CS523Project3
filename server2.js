@@ -43,6 +43,10 @@ app.post('/upload', function(req, res){
     });
 });
 
+function parseString(data) {
+    return String.fromCharCode.apply(null, data);
+}
+
 function processFile(pathString) {
     var scriptPath = '/data/evl/anishi2/cs523/';
     var script = 'pix2pix_testPkm';
@@ -57,12 +61,12 @@ function processFile(pathString) {
     /* running on lyra */
     const scriptExecution = spawn("ssh", args);
 
-    scriptExecution.stdout.on('data', function(data) {
-        console.log('stdout', data);
+    scriptExecution.stdout.on('data', function(msg) {
+        console.log('stdout', parseString(msg));
     });
 
     scriptExecution.stderr.on('data', function(err) {
-        console.log('error', err);
+        console.log('error', parseString(err));
     });
 
     scriptExecution.stdout.on('exit', function(data) {
