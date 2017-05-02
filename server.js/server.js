@@ -9,6 +9,7 @@ var server = app.listen(10523, function(){
 });
 
 app.get('/', function(req, res){
+    //res.setHeader('Cache-Control','no-cache, no store');
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -66,8 +67,9 @@ app.post('/upload', function(req, res){
                         process.on('exit', function(data) {
                             console.log('done', data);
                             if (data == 0 && success) {
-                                res.sendStatus(200);
-                                console.log('success');
+				res.setHeader('Cache-Control','no-cache, no store');
+				res.sendStatus(200);
+				console.log('success');
                             }
                             else {
                                 res.sendStatus(500);

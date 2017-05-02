@@ -6,8 +6,15 @@
     <script src="https://use.fontawesome.com/b14e02b672.js"></script>
     <style>
     body { 
-        font-family: helvetica, arial, sans-serif; 
+        text-align: center;
+	font-family: helvetica, arial, sans-serif; 
     }
+    
+    figure 
+    {
+        float:left;
+    	display:table;
+    } 
     #draw-container {
         padding: 1em;
         display:inline-block;
@@ -265,16 +272,19 @@ appendImage();
     })();
 
     function appendImage(url) {
-        url_1 = url || "output/images/output-outputs-artistModel.png#"+ new Date().getTime();
-		url_2 = url || "output/images/output-outputs-spriteModel.png#"+ new Date().getTime();
-		url_3 = url || "output/images/output-outputs-artistModel2.png#"+ new Date().getTime();
-		url_4 = url || "output/images/output-outputs-spriteModel2.png#"+ new Date().getTime();
+        url_1 = url || "output/images/output-outputs-artistModel.png?"+ new Date().getTime();
+		url_2 = url || "output/images/output-outputs-spriteModel.png?"+ new Date().getTime();
+		url_3 = url || "output/images/output-outputs-artistModel2.png?"+ new Date().getTime();
+		url_4 = url || "output/images/output-outputs-spriteModel2.png?"+ new Date().getTime();
         var div = document.getElementById('debugdiv') || document.createElement('div');
         if (!div.id) {
            div.id = "debugdiv";
            document.body.append(div);
         }
-        div.innerHTML = "<img src='" + url_1 + "'>"+"<img src='" + url_2 + "'>"+"<img src='" + url_3 + "'>"+"<img src='" + url_4 + "'>";
+        div.innerHTML = "<figure>" + "<img src='" + url_1 + "'><figcaption>Render 1.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_2 + "'><figcaption>Render 2.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_3 + "'><figcaption>Render 3.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_4 + "'><figcaption>Render 4.</figcaption></figure>";
         
     };
 
