@@ -295,6 +295,7 @@ spinner.style.display = 'none';
 appendImage();
                     }
                     else {
+                        appendErrorMessage();
                         console.log('error posting file', xhr.responseText);
                     }
                 }
@@ -302,6 +303,15 @@ appendImage();
         };
 
     })();
+
+    function appendErrorMessage() {
+      var div = document.getElementById('debugdiv') || document.createElement('div');
+      if (!div.id) {
+         div.id = "debugdiv";
+         document.body.append(div);
+      }
+      div.innerHTML = 'Error: Could not process file';
+    }
 
     function appendImage(url) {
         url_1 = url || "output/images/output-outputs-ModelA.png?"+ new Date().getTime();
