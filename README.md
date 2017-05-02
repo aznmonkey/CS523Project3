@@ -9,3 +9,10 @@ In addition to our training model, we would also like to allow the user of our G
 
 ## Literature Review
 [See wiki](https://github.com/aznmonkey/CS523Project3/wiki#literature-review)
+
+## Final Writeup
+[Project3.pdf](https://github.com/aznmonkey/CS523Project3/blob/master/writeup/Project3.pdf)
+
+## Video
+[GANmons Web Interface Overview]()
+
