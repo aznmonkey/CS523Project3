@@ -14,27 +14,36 @@ model="edges2pkm_train-Lyra30"
 # Lyra-30: Artist rendering 200 epoch (threshold lines)
 
 # Lyra-30B: Artist renderings, threshold lines, 1200 epoch
-# Lyra-320B: Sprites front only, threshold lines, 800 epoch
+# Lyra-32B: Sprites front only, threshold lines, 800 epoch
 
 # Website order is:
 # artistModel, spriteModel, artistModel2, spriteModel2
 
-if [ $1 == "spriteModel" ];
+if [ $1 == "ModelA" ];
 	then
-		echo "Using sprite model"
-		model="edges2pkm_train-Lyra32" # 32
-elif [ $1 == "artistModel" ];
+		echo "Using initial sprite model"
+		model="edges2pkm_train-Lyra36"
+elif [ $1 == "ModelB" ];
 	then
-			echo "Using artist model"
-			model="edges2pkm_train-Lyra30" #30
-elif [ $1 == "spriteModel2" ];
+			echo "Using initial artist model"
+			model="edges2pkm_train-Lyra34"
+elif [ $1 == "ModelA1" ];
 	then
-			echo "Using old sprite model"
-			model="edges2pkm_train-Lyra34" #36
-elif [ $1 == "artistModel2" ];
+			echo "Using sprite model with threshold filter"
+			model="edges2pkm_train-Lyra32"
+elif [ $1 == "ModelB1" ];
 	then
-			echo "Using old artist model"
-			model="edges2pkm_train-Lyra30B" #34
+			echo "Using artist model with threshold filter"
+			model="edges2pkm_train-Lyra30"
+elif [ $1 == "ModelB2" ];
+	then
+			echo "Using artist model with threshold filter extended epoch"
+			model="edges2pkm_train-Lyra30B"
+			sleep 3
+elif [ $1 == "ModelA2" ];
+	then
+			echo "Using sprite model with threshold filter extended epoch"
+			model="edges2pkm_train-Lyra32B"
 else
 	echo "Using default model"
 fi

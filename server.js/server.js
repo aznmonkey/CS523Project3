@@ -95,15 +95,17 @@ function processFile(pathString) {
     var args = [
         "lyra-02",
         "nohup",
-        scriptPath + script + " artistModel"
+        scriptPath + script + " ModelB2"
+		// Note in B2's test script, there's a delay to make sure the others finish first
     ];
    
     console.log('running');
 	
-	spawn('ssh', ["lyra-04", "nohup", scriptPath + script + " spriteModel"]);
-	spawn('ssh', ["lyra-06", "nohup", scriptPath + script + " artistModel2"]);
-	spawn('ssh', ["lyra-08", "nohup", scriptPath + script + " spriteModel2"]);
-	
+	spawn('ssh', ["lyra-04", "nohup", scriptPath + script + " ModelA"]);
+	spawn('ssh', ["lyra-06", "nohup", scriptPath + script + " ModelB"]);
+	spawn('ssh', ["lyra-08", "nohup", scriptPath + script + " ModelA1"]);
+	spawn('ssh', ["lyra-10", "nohup", scriptPath + script + " ModelA2"]);
+	spawn('ssh', ["lyra-12", "nohup", scriptPath + script + " ModelB1"]);
     /* running on lyra */
     return spawn('ssh', args);
 }

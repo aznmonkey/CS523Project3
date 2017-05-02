@@ -304,19 +304,23 @@ appendImage();
     })();
 
     function appendImage(url) {
-        url_1 = url || "output/images/output-outputs-artistModel.png?"+ new Date().getTime();
-		url_2 = url || "output/images/output-outputs-spriteModel.png?"+ new Date().getTime();
-		url_3 = url || "output/images/output-outputs-artistModel2.png?"+ new Date().getTime();
-		url_4 = url || "output/images/output-outputs-spriteModel2.png?"+ new Date().getTime();
+        url_1 = url || "output/images/output-outputs-ModelA.png?"+ new Date().getTime();
+		url_2 = url || "output/images/output-outputs-ModelB.png?"+ new Date().getTime();
+		url_3 = url || "output/images/output-outputs-ModelA1.png?"+ new Date().getTime();
+		url_4 = url || "output/images/output-outputs-ModelB1.png?"+ new Date().getTime();
+		url_5 = url || "output/images/output-outputs-ModelA2.png?"+ new Date().getTime();
+		url_6 = url || "output/images/output-outputs-ModelB2.png?"+ new Date().getTime();
         var div = document.getElementById('debugdiv') || document.createElement('div');
         if (!div.id) {
            div.id = "debugdiv";
            document.body.append(div);
         }
-        div.innerHTML = "<figure>" + "<img src='" + url_1 + "'><figcaption>Render 1.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_2 + "'><figcaption>Render 2.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_3 + "'><figcaption>Render 3.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_4 + "'><figcaption>Render 4.</figcaption></figure>";
+        div.innerHTML = "<figure>" + "<img src='" + url_1 + "'><figcaption>Model A: Trained on 9848 generation 2-5 front/back sprites with 3 line edge filters for 200 epochs.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_2 + "'><figcaption>Model B: Trained on 1200 generation 1 artist renders with 3 line edge filters for 200 epochs.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_3 + "'><figcaption>Model A1: Trained on 2258 generation 2-5 front sprites with threshold filter for 200 epochs.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_4 + "'><figcaption>Model B1: Trained on 1004 generation 1 artist renders with threshold filter for 200 epochs.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_5 + "'><figcaption>Model A2: A1 trained for 800+ epochs.</figcaption></figure>"+
+			"<figure>" + "<img src='" + url_6 + "'><figcaption>Model B2: B2 trained for 1600+ epochs.</figcaption></figure>";
         
     };
 
