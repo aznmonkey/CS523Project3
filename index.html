@@ -6,20 +6,8 @@
     <script src="https://use.fontawesome.com/b14e02b672.js"></script>
     <style>
     body { 
-        text-align: center;
-	font-family: helvetica, arial, sans-serif; 
+        font-family: helvetica, arial, sans-serif; 
     }
-    
-    figure 
-    {
-        float:left;
-    	display:table;
-    } 
-
-    #header-img {
-        text-align: center;
-    }
-    
     #draw-container {
         padding: 1em;
         display:inline-block;
@@ -72,25 +60,9 @@
         background-color:white;
         cursor:crosshair;
     }
-
-    @keyframes spin {
-        from {transform:rotate(0deg);}
-        to {transform:rotate(360deg);}
-    }
-
-    #spinner {
-        display:none;        
-    }
-    #spinner i {
-        font-size:25px;
-        animation: spin 3s infinite linear;
-    }
     </style>
 </head>
 <body>
-    <div id="header-img">
-        <img src="/images/GANmon.png">    
-    </div>
     <div id="draw-container">
         <div style="width:256px; height:256px; overflow:hidden; box-shadow: 1px 2px 9px #aaa;
 ">
@@ -125,11 +97,6 @@
             </div>
         </div>
     </div>
-
-    <div id="spinner">
-        <i class="fa fa-spinner" aria-hidden="true"></i>
-    </div>
-
 
     <!-- save/load handler -->
     <a id="save-anchor" download="input.jpg" style="display:none"></a>
@@ -267,32 +234,26 @@
         };
 
         procButton.onclick = function() {
-            // var spinning icon
-            var spinner = document.getElementById('spinner');
-            spinner.style.display = 'block';
-
             // get image data from canvas
-            var image = canvas.toDataURL('image/jpeg');
+            var img = canvas.toDataURL('image/jpeg');
 
             // send image to server
             var xhr = new XMLHttpRequest();
             xhr.open('POST', './upload', true);
-            xhr.send(image);
+            xhr.send(img);
 
             xhr.onreadystatechange = function(e) {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
                         console.log('success', xhr.responseText);
-/*                        var image = new Image();
-                        image.src = './output/images/output-outputs.png';
-                        image.onload = function() {
-                            console.log(image);
-                            ctx.drawImage(image, 0, 0, width, height);
-                        };
-*/
-spinner.style.display = 'none';
-
-appendImage();
+                        setTimeout(function() {
+                            var image = new Image();
+                            image.src = 'output/images/output-outputs.png';
+                            image.onload = function() {
+                                console.log(image);
+                                ctx.drawImage(image, 0, 0, width, height);
+                            };                            
+                        }, 500);
                     }
                     else {
                         console.log('error posting file', xhr.responseText);
@@ -302,23 +263,6 @@ appendImage();
         };
 
     })();
-
-    function appendImage(url) {
-        url_1 = url || "output/images/output-outputs-artistModel.png?"+ new Date().getTime();
-		url_2 = url || "output/images/output-outputs-spriteModel.png?"+ new Date().getTime();
-		url_3 = url || "output/images/output-outputs-artistModel2.png?"+ new Date().getTime();
-		url_4 = url || "output/images/output-outputs-spriteModel2.png?"+ new Date().getTime();
-        var div = document.getElementById('debugdiv') || document.createElement('div');
-        if (!div.id) {
-           div.id = "debugdiv";
-           document.body.append(div);
-        }
-        div.innerHTML = "<figure>" + "<img src='" + url_1 + "'><figcaption>Render 1.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_2 + "'><figcaption>Render 2.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_3 + "'><figcaption>Render 3.</figcaption></figure>"+
-			"<figure>" + "<img src='" + url_4 + "'><figcaption>Render 4.</figcaption></figure>";
-        
-    };
 
     </script>
 </body>
