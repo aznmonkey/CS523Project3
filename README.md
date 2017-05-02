@@ -14,5 +14,5 @@ In addition to our training model, we would also like to allow the user of our G
 [Project3.pdf](https://github.com/aznmonkey/CS523Project3/blob/master/writeup/Project3.pdf)
 
 ## Video
-[GANmons Web Interface Overview]()
+[GANmons Web Interface Overview](https://youtu.be/xfMJg-C3xSc)
 
